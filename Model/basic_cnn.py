@@ -1,4 +1,5 @@
 from tensorflow.keras import models, layers
+from tensorflow.keras import optimizers
 model = models.Sequential()
 
 # Primeira camada convolucional
@@ -17,6 +18,7 @@ model.add(layers.MaxPooling2D((2, 2)))
 model.add(layers.Flatten())
 model.add(layers.Dense(64, activation='relu'))
 model.add(layers.Dense(10, activation='softmax'))
+model.compile(optimizer=optimizers.RMSprop(learning_rate=2e-5), loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
 
 def model_basic_cnn():

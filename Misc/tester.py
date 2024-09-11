@@ -1,11 +1,17 @@
-from Train import Train_VGG16
-from Misc import Image,graph
+from Train import Train_VGG16, train_basic_cnn
+from Misc import Image, graph, menu
+
 import os
 import csv
 
-def tester():
-    false_class: int=0
-    true_class: int=0
+
+def tester(i):
+    if i == 0:
+        i = menu.menu_tester()
+    false_class: int = 0
+    true_class: int = 0
+    models = {1: train_basic_cnn, 2: Train_VGG16}
+
     # Path images
     image_folder = 'media/test'
 
@@ -13,7 +19,7 @@ def tester():
     csv_file_path = 'media/test/classes_file.csv'
 
     # Load the classification model (replace with your model loading function)
-    model = Train_VGG16.load()
+    model = models[i].load()
 
     # Load the expected classes into a dictionary from CSV
     expected_classes = {}
@@ -47,8 +53,8 @@ def tester():
             print(f"Image {image_name} correctly classified as {predicted_class} with confidence of {confidence:.2f}.")
             true_class = true_class + 1
         else:
-            print(f"Image {image_name} incorrectly classified. Predicted: {predicted_class}, Expected: {expected_class}.")
+            print(
+                f"Image {image_name} incorrectly classified. Predicted: {predicted_class}, Expected: {expected_class}.")
             false_class = false_class + 1
 
-    graph.plot_bar(true_class,false_class)
-
+    graph.plot_bar(true_class, false_class)
